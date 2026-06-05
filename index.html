@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joseph Iturralde | Portfolio Personal</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    /* ============================================
+       CSS VARIABLES & RESET
+    ============================================ */
+    :root {
+      --red:        #e63946;
+      --red-glow:   #ff4d5a;
+      --red-dark:   #b02030;
+      --blue:       #1d4ed8;
+      --blue-glow:  #3b6bff;
+      --blue-dark:  #1338a8;
+      --bg:         #080c14;
+      --bg2:        #0d1422;
+      --bg3:        #111827;
+      --surface:    rgba(255,255,255,0.04);
+      --border:     rgba(255,255,255,0.07);
+      --text:       #e8eaf0;
+      --muted:      #7a8499;
+      --white:      #ffffff;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'Montserrat', sans-serif;
+      --radius:     12px;
+      --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       SCROLLBAR
+    ============================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--red), var(--blue)); border-radius: 3px; }
+
+    /* ============================================
+       GLOBAL GRID BACKGROUND
+    ============================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(29,78,216,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(29,78,216,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================
+       NAV
+    ============================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--red), var(--blue));
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+    .hamburger span {
+      width: 25px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        position: fixed;
+        top: 68px; left: 0; right: 0;
+        flex-direction: column;
+        background: rgba(8,12,20,0.97);
+        backdrop-filter: blur(20px);
+        padding: 2rem;
+        gap: 1.5rem;
+        transform: translateY(-120%);
+        transition: var(--transition);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links.open { transform: translateY(0); }
+    }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    #inicio {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 100px 5% 60px;
+      overflow: hidden;
+    }
+
+    /* Animated gradient orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      animation: float 8s ease-in-out infinite;
+    }
+    .orb-red  { width: 500px; height: 500px; background: var(--red);  top: -100px; right: -100px; animation-delay: 0s; }
+    .orb-blue { width: 600px; height: 600px; background: var(--blue); bottom: -150px; left: -100px; animation-delay: -4s; }
+
+    @keyframes float {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50%      { transform: translate(30px,-40px) scale(1.05); }
+    }
+
+    /* Diagonal slash accent */
+    #inicio::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 0%, rgba(29,78,216,0.06) 100%);
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1200px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(230,57,70,0.1);
+      border: 1px solid rgba(230,57,70,0.3);
+      border-radius: 30px;
+      padding: 6px 16px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(1.5); }
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: 3px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-name .first { color: var(--white); }
+    .hero-name .last {
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-tagline {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+      max-width: 420px;
+    }
+
+    .hero-tagline strong { color: var(--text); font-weight: 600; }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      color: var(--white);
+      box-shadow: 0 0 25px rgba(230,57,70,0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(230,57,70,0.6);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--blue-glow);
+      color: var(--white);
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(29,78,216,0.3);
+    }
+
+    /* Photo placeholder */
+    .hero-photo-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .photo-frame {
+      position: relative;
+      width: 340px;
+      height: 420px;
+    }
+
+    /* Rotating border ring */
+    .photo-ring {
+      position: absolute;
+      inset: -12px;
+      border-radius: 20px;
+      background: conic-gradient(from 0deg, var(--red), var(--blue), transparent, var(--red));
+      animation: spin-ring 6s linear infinite;
+      z-index: 0;
+      filter: blur(1px);
+    }
+
+    @keyframes spin-ring {
+      to { transform: rotate(360deg); }
+    }
+
+    .photo-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 3px solid rgba(255,255,255,0.05);
+      background: var(--bg3);
+    }
+
+    /* --- REPLACE src WITH YOUR PHOTO --- */
+    .photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Placeholder shown when no real image */
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, var(--bg3), var(--bg2));
+      color: var(--muted);
+      gap: 1rem;
+    }
+
+    .photo-placeholder i { font-size: 4rem; color: var(--blue-glow); opacity: 0.5; }
+    .photo-placeholder p { font-size: 0.75rem; letter-spacing: 1px; text-align: center; line-height: 1.8; }
+
+    /* Corner accents */
+    .corner { position: absolute; width: 24px; height: 24px; z-index: 2; }
+    .corner-tl { top: -4px; left: -4px; border-top: 3px solid var(--red); border-left: 3px solid var(--red); border-radius: 4px 0 0 0; }
+    .corner-tr { top: -4px; right: -4px; border-top: 3px solid var(--blue); border-right: 3px solid var(--blue); border-radius: 0 4px 0 0; }
+    .corner-bl { bottom: -4px; left: -4px; border-bottom: 3px solid var(--blue); border-left: 3px solid var(--blue); border-radius: 0 0 0 4px; }
+    .corner-br { bottom: -4px; right: -4px; border-bottom: 3px solid var(--red); border-right: 3px solid var(--red); border-radius: 0 0 4px 0; }
+
+    .photo-tag {
+      position: absolute;
+      bottom: -20px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 20px;
+      white-space: nowrap;
+      z-index: 3;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+      .hero-tagline { margin: 0 auto 2.5rem; }
+      .hero-ctas { justify-content: center; }
+      .hero-photo-wrap { order: -1; }
+      .photo-frame { width: 260px; height: 320px; }
+    }
+
+    /* ============================================
+       SECTION COMMON
+    ============================================ */
+    section {
+      padding: 100px 5%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 2px;
+      line-height: 1;
+      color: var(--white);
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--blue));
+      margin: 1.2rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* ============================================
+       SOBRE MÍ
+    ============================================ */
+    #sobre-mi { background: var(--bg2); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text p strong { color: var(--text); }
+
+    .stats-row {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .about-data-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .data-card-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--blue-glow);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .data-row:last-child { border-bottom: none; }
+
+    .data-key { color: var(--muted); font-weight: 500; }
+    .data-val { color: var(--text); font-weight: 600; }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================
+       ENTRETENIMIENTOS
+    ============================================ */
+    #entretenimientos { background: var(--bg); }
+
+    .hobbies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hobby-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      cursor: default;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hobby-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(230,57,70,0.08), rgba(29,78,216,0.08));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .hobby-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(230,57,70,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(230,57,70,0.15);
+    }
+
+    .hobby-card:hover::before { opacity: 1; }
+
+    .hobby-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .hobby-card:hover .hobby-icon { transform: scale(1.2) rotate(5deg); }
+
+    .hobby-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text);
+    }
+
+    .hobby-tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      color: var(--muted);
+    }
+
+    /* ============================================
+       FORMACIÓN ACADÉMICA — TIMELINE
+    ============================================ */
+    #estudios { background: var(--bg2); }
+
+    .timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Vertical line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--red), var(--blue), var(--red));
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd)  { flex-direction: row-reverse; }
+
+    /* Dot on center line */
+    .timeline-dot {
+      position: absolute;
+      left: 50%; top: 18px;
+      transform: translate(-50%, -50%);
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 3px solid var(--red);
+      z-index: 2;
+      transition: var(--transition);
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot { border-color: var(--blue); }
+    .timeline-item:nth-child(3)    .timeline-dot { border-color: var(--red); box-shadow: 0 0 15px var(--red); }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .timeline-content:hover {
+      border-color: rgba(230,57,70,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .tl-level {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-item:nth-child(even) .tl-level { color: var(--blue-glow); }
+
+    .tl-school {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+
+    .tl-detail {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .tl-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0.8rem;
+      background: rgba(29,78,216,0.15);
+      border: 1px solid rgba(29,78,216,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue-glow);
+    }
+
+    .tl-badge.active {
+      background: rgba(230,57,70,0.15);
+      border-color: rgba(230,57,70,0.4);
+      color: var(--red-glow);
+      animation: badge-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes badge-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(230,57,70,0.4); }
+      50%      { box-shadow: 0 0 0 6px rgba(230,57,70,0); }
+    }
+
+    /* Spacer on alternate side */
+    .timeline-spacer { flex: 1; }
+
+    @media (max-width: 640px) {
+      .timeline::before { left: 20px; }
+      .timeline-item,
+      .timeline-item:nth-child(odd) {
+        flex-direction: column;
+        padding-left: 52px;
+      }
+      .timeline-dot { left: 20px; }
+      .timeline-spacer { display: none; }
+    }
+
+    /* ============================================
+       REDES SOCIALES
+    ============================================ */
+    #redes { background: var(--bg); }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .social-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 2rem;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .social-card.instagram::after { background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .social-card.tiktok::after   { background: linear-gradient(90deg, #69c9d0, #010101, #ee1d52); }
+    .social-card.email::after    { background: linear-gradient(90deg, var(--red), var(--blue)); }
+
+    .social-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .social-card:hover::after { opacity: 1; }
+
+    .social-icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .social-card:hover .social-icon-wrap { transform: scale(1.1) rotate(-5deg); }
+
+    .instagram .social-icon-wrap { background: linear-gradient(135deg, #f09433, #dc2743, #bc1888); color: white; }
+    .tiktok    .social-icon-wrap { background: #010101; color: #ee1d52; border: 1px solid #333; }
+    .email     .social-icon-wrap { background: linear-gradient(135deg, var(--red), var(--blue)); color: white; }
+
+    .social-info { flex: 1; }
+    .social-platform { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+    .social-handle   { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-top: 2px; }
+    .social-arrow    { color: var(--muted); font-size: 0.85rem; transition: var(--transition); }
+    .social-card:hover .social-arrow { color: var(--white); transform: translateX(4px); }
+
+    /* ============================================
+       CONTACTO
+    ============================================ */
+    #contacto {
+      background: var(--bg2);
+    }
+
+    .contact-box {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .contact-item:hover {
+      border-color: rgba(230,57,70,0.3);
+      transform: translateX(6px);
+    }
+
+    .contact-item i {
+      font-size: 1.2rem;
+      color: var(--red);
+      width: 30px;
+      text-align: center;
+    }
+
+    .contact-item span { color: var(--muted); font-size: 0.9rem; }
+    .contact-item span strong { color: var(--text); display: block; font-size: 0.85rem; }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 3rem 5%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer p span {
+      background: linear-gradient(135deg, var(--red), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    /* ============================================
+       SCROLL ANIMATIONS
+    ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger delays for grids */
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+    .reveal-delay-6 { transition-delay: 0.6s; }
+    .reveal-delay-7 { transition-delay: 0.7s; }
+    .reveal-delay-8 { transition-delay: 0.8s; }
+
+    /* ============================================
+       MISC UTILITIES
+    ============================================ */
+    .text-center { text-align: center; }
+
+    .glow-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--blue), transparent);
+      margin: 0;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================
+       NAV
+  ============================================ -->
+  <nav id="navbar">
+    <div class="nav-logo">JI</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#entretenimientos">Hobbies</a></li>
+      <li><a href="#estudios">Estudios</a></li>
+      <li><a href="#redes">Redes</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       HERO
+  ============================================ -->
+  <section id="inicio">
+    <div class="orb orb-red"></div>
+    <div class="orb orb-blue"></div>
+
+    <div class="hero-inner">
+      <!-- Left: text -->
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Disponible · Estudiante Universitario
+        </div>
+
+        <h1 class="hero-name">
+          <span class="first">Joseph</span><br />
+          <span class="last">Iturralde</span>
+        </h1>
+
+        <p class="hero-tagline">
+          Estudiante de <strong>Licenciatura en Sistemas y Programación</strong>.<br />
+          Apasionado por la tecnología, el deporte y el aprendizaje continuo.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#sobre-mi" class="btn btn-primary">
+            <i class="fas fa-user"></i> Conocerme
+          </a>
+          <a href="#redes" class="btn btn-secondary">
+            <i class="fas fa-share-nodes"></i> Redes Sociales
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: photo -->
+      <div class="hero-photo-wrap">
+        <div class="photo-frame">
+          <div class="photo-ring"></div>
+          <div class="photo-inner">
+             <img src="Imagen.jpeg" alt="Joseph Iturralde" /> 
+            <div class="photo-placeholder">
+              <i class="fas fa-user-circle"></i>
+              <p>Reemplaza con<br />tu fotografía<br />en VS Code</p>
+            </div>
+          </div>
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+          <div class="photo-tag">Joseph Iturralde</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-line"></div>
+
+  <!-- ============================================
+       SOBRE MÍ
+  ============================================ -->
+  <section id="sobre-mi">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">¿Quién soy?</p>
+      <h2 class="section-title">Sobre <span>Mí</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="about-grid">
+      <!-- Text -->
+      <div class="about-text reveal">
+        <p>
+          Hola, soy <strong>Joseph Iturralde</strong>, tengo <strong>19 años</strong> y actualmente curso la
+          <strong>Licenciatura en Sistemas y Programación</strong>. Me apasiona la tecnología, el deporte y el
+          aprendizaje continuo.
+        </p>
+        <p>
+          Cada día busco mejorar mis habilidades, tanto en el ámbito tecnológico como personal.
+          Creo en el trabajo en equipo, la disciplina y la constancia como pilares del éxito.
+        </p>
+
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-num">19</div>
+            <div class="stat-label">Años</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">3°</div>
+            <div class="stat-label">Nivel Univ.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">8+</div>
+            <div class="stat-label">Hobbies</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data card -->
+      <div class="about-data-card reveal reveal-delay-2">
+        <div class="data-card-title">
+          <i class="fas fa-id-card"></i> Datos Personales
+        </div>
+
+        <div class="data-row">
+          <span class="data-key"><i class="fas fa-user" style="width:20px;color:var(--blue-glow)"></i> Nombre</span>
+          <span class="data-val">Joseph Iturralde</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key"><i class="fas fa-cake-candles" style="width:20px;color:var(--blue-glow)"></i> Nacimiento</span>
+          <span class="data-val">08 / 12 / 2006</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key"><i class="fas fa-hourglass-half" style="width:20px;color:var(--blue-glow)"></i> Edad</span>
+          <span class="data-val">19 años</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key"><i class="fas fa-graduation-cap" style="width:20px;color:var(--blue-glow)"></i> Carrera</span>
+          <span class="data-val">Lic. Sistemas y Prog.</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key"><i class="fas fa-map-pin" style="width:20px;color:var(--blue-glow)"></i> País</span>
+          <span class="data-val">Panamá</span>
+        </div>
+        <div class="data-row">
+          <span class="data-key"><i class="fas fa-circle-check" style="width:20px;color:var(--red-glow)"></i> Estado</span>
+          <span class="data-val" style="color:var(--red-glow)">Activo · Estudiante</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-line"></div>
+
+  <!-- ============================================
+       ENTRETENIMIENTOS
+  ============================================ -->
+  <section id="entretenimientos">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Lo que me gusta</p>
+      <h2 class="section-title">Mis <span>Entretenimientos</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="hobbies-grid">
+      <div class="hobby-card reveal reveal-delay-1">
+        <span class="hobby-icon">📺</span>
+        <div class="hobby-name">Ver Series</div>
+        <div class="hobby-tag">Entretenimiento</div>
+      </div>
+      <div class="hobby-card reveal reveal-delay-2">
+        <span class="hobby-icon">⚾</span>
+        <div class="hobby-name">Béisbol</div>
+        <div class="hobby-tag">Deporte Favorito</div>
+      </div>
+      <div class="hobby-card reveal reveal-delay-3">
+        <span class="hobby-icon">🏎️</span>
+        <div class="hobby-name">Carreras de Autos</div>
+        <div class="hobby-tag">Velocidad</div>
+      </div>
+      <div class="hobby-card reveal reveal-delay-4">
+        <span class="hobby-icon">🤾</span>
+        <div class="hobby-name">Jugar Béisbol</div>
+        <div class="hobby-tag">Deporte Activo</div>
+      </div>
+      <div class="hobby-card reveal reveal-delay-5">
+        <span class="hobby-icon">⚽</span>
+        <div class="hobby-name">Fútbol</div>
+        <div class="hobby-tag">Deporte</div>
+      </div>
+      <div class="hobby-card reveal reveal-delay-6">
+        <span class="hobby-icon">🎾</span>
+        <div class="hobby-name">Tenis</div>
+        <div class="hobby-tag">Raqueta</div>
+      </div>
+      <div class="hobby-card reveal reveal-delay-7">
+        <span class="hobby-icon">⛳</span>
+        <div class="hobby-name">Golf</div>
+        <div class="hobby-tag">Precisión</div>
+      </div>
+      <div class="hobby-card reveal reveal-delay-8">
+        <span class="hobby-icon">👨‍👩‍👦</span>
+        <div class="hobby-name">Familia</div>
+        <div class="hobby-tag">Lo Más Importante</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="glow-line"></div>
+
+  <!-- ============================================
+       FORMACIÓN ACADÉMICA
+  ============================================ -->
+  <section id="estudios">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Mi trayectoria</p>
+      <h2 class="section-title">Formación <span>Académica</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Primaria -->
+      <div class="timeline-item reveal">
+        <div class="timeline-content">
+          <div class="tl-level">Educación Primaria</div>
+          <div class="tl-school">Juan T. Del Busto</div>
+          <div class="tl-detail">Formación base, valores y conocimiento fundamental.</div>
+          <span class="tl-badge"><i class="fas fa-check"></i> Completado</span>
+        </div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-spacer"></div>
+      </div>
+
+      <!-- Secundaria -->
+      <div class="timeline-item reveal">
+        <div class="timeline-spacer"></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="tl-level">Educación Secundaria</div>
+          <div class="tl-school">José Daniel Crespo</div>
+          <div class="tl-detail">Bachillerato y preparación para la vida universitaria.</div>
+          <span class="tl-badge"><i class="fas fa-check"></i> Completado</span>
+        </div>
+      </div>
+
+      <!-- Universidad -->
+      <div class="timeline-item reveal">
+        <div class="timeline-content">
+          <div class="tl-level">Educación Universitaria</div>
+          <div class="tl-school">Lic. Sistemas y Programación</div>
+          <div class="tl-detail">
+            Desarrollo de software, algoritmos, bases de datos, redes y tecnologías emergentes.
+          </div>
+          <span class="tl-badge active"><i class="fas fa-spinner fa-spin"></i> En Curso</span>
+        </div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-spacer"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="glow-line"></div>
+
+  <!-- ============================================
+       REDES SOCIALES
+  ============================================ -->
+  <section id="redes">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">Encuéntrame en</p>
+      <h2 class="section-title">Redes <span>Sociales</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="social-grid">
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/joseph_m086?igsh=eHR2dmZwOHhyczV5&utm_source=qr" class="social-card instagram reveal reveal-delay-1">
+        <div class="social-icon-wrap">
+          <i class="fab fa-instagram"></i>
+        </div>
+        <div class="social-info">
+          <div class="social-platform">Instagram</div>
+          <!-- Reemplaza # con tu enlace y el texto con tu usuario -->
+          <div class="social-handle">@Joseph_m086</div>
+        </div>
+        <i class="fas fa-arrow-right social-arrow"></i>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@jturralde8?_r=1&_t=ZS-96wVlZD7jam" class="social-card tiktok reveal reveal-delay-2">
+        <div class="social-icon-wrap">
+          <i class="fab fa-tiktok"></i>
+        </div>
+        <div class="social-info">
+          <div class="social-platform">TikTok</div>
+          <!-- Reemplaza # con tu enlace y el texto con tu usuario -->
+          <div class="social-handle">@Jturralde8</div>
+        </div>
+        <i class="fas fa-arrow-right social-arrow"></i>
+      </a>
+
+      <!-- Correo -->
+      <a href="mailto:tucorreo@ejemplo.com" class="social-card email reveal reveal-delay-3">
+        <div class="social-icon-wrap">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="social-info">
+          <div class="social-platform">Correo Electrónico</div>
+          <!-- Reemplaza con tu correo real -->
+          <div class="social-handle">tucorreo@ejemplo.com</div>
+        </div>
+        <i class="fas fa-arrow-right social-arrow"></i>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="glow-line"></div>
+
+  <!-- ============================================
+       CONTACTO
+  ============================================ -->
+  <section id="contacto">
+    <div class="section-header reveal">
+      <p class="section-eyebrow">¡Hablemos!</p>
+      <h2 class="section-title">Contáct<span>ame</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="contact-box">
+      <p>
+        ¿Tienes alguna propuesta, proyecto o simplemente quieres saludar?<br />
+        No dudes en escribirme, estaré encantado de responder.
+      </p>
+
+      <div class="contact-info-list">
+        <div class="contact-item reveal reveal-delay-1">
+          <i class="fab fa-instagram"></i>
+          <span>
+            <strong>@tu_usuario</strong>
+            Instagram
+          </span>
+        </div>
+        <div class="contact-item reveal reveal-delay-2">
+          <i class="fab fa-tiktok"></i>
+          <span>
+            <strong>@tu_usuario</strong>
+            TikTok
+          </span>
+        </div>
+        <div class="contact-item reveal reveal-delay-3">
+          <i class="fas fa-envelope"></i>
+          <span>
+            <strong>tucorreo@ejemplo.com</strong>
+            Correo Electrónico
+          </span>
+        </div>
+      </div>
+
+      <a href="mailto:tucorreo@ejemplo.com" class="btn btn-primary reveal reveal-delay-4">
+        <i class="fas fa-paper-plane"></i> Enviar Mensaje
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+  ============================================ -->
+  <footer>
+    <div class="footer-logo">JI</div>
+    <p>Diseñado y desarrollado con <span>❤</span> por <span>Joseph Iturralde</span></p>
+    <p style="margin-top:0.5rem;">© 2025 · Todos los derechos reservados</p>
+  </footer>
+
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================ -->
+  <script>
+    /* ── NAV: hamburger toggle ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+
+    /* Close menu on link click */
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    /* ── NAV: active link on scroll ── */
+    const sections = document.querySelectorAll('section[id]');
+    const navA     = document.querySelectorAll('.nav-links a');
+
+    const setActiveLink = () => {
+      const scrollY = window.scrollY;
+      sections.forEach(sec => {
+        const top    = sec.offsetTop - 100;
+        const bottom = top + sec.offsetHeight;
+        const id     = sec.getAttribute('id');
+        if (scrollY >= top && scrollY < bottom) {
+          navA.forEach(a => {
+            a.style.color = '';
+            if (a.getAttribute('href') === `#${id}`) {
+              a.style.color = 'var(--white)';
+            }
+          });
+        }
+      });
+    };
+
+    window.addEventListener('scroll', setActiveLink);
+
+    /* ── SCROLL REVEAL ── */
+    const reveals = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => revealObserver.observe(el));
+
+    /* ── HERO: text glitch entrance ── */
+    window.addEventListener('load', () => {
+      document.querySelector('.hero-text').style.opacity = '1';
+    });
+  </script>
+</body>
+</html>
